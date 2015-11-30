@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "HomeTVC.h"
+
+#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
@@ -15,8 +18,22 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+
+    HomeTVC *onePage = [[HomeTVC alloc] init];
+    UINavigationController *oneNav = [[UINavigationController alloc] initWithRootViewController:onePage];
+    
+    
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = oneNav;
+    [self.window makeKeyAndVisible];
+    
+    [Parse setApplicationId:@"O1GZwLb5af1CeS9MRx0pLMlochPiRImbpZLwP34A"
+                  clientKey:@"seLD57C4upoarACD4RhXvtRdPPDq4ewB6YmCECDn"];
+    
+    
     return YES;
 }
 
