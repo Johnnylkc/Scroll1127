@@ -25,10 +25,15 @@
         self.myLabel.font = [UIFont boldSystemFontOfSize:20];
         [self.contentView addSubview:self.myLabel];
         
-        self.squareImage = [UIImageView new];
-        self.squareImage.contentMode = UIViewContentModeScaleAspectFill;
-        self.squareImage.clipsToBounds = YES;
-        [self.contentView addSubview:self.squareImage];
+        self.leftImage = [UIImageView new];
+        self.leftImage.contentMode = UIViewContentModeScaleAspectFill;
+        self.leftImage.clipsToBounds = YES;
+        [self.contentView addSubview:self.leftImage];
+        
+        self.rightImage = [UIImageView new];
+        self.rightImage.contentMode = UIViewContentModeScaleAspectFit;
+        self.rightImage.clipsToBounds = YES;
+        [self.contentView addSubview:self.rightImage];
         
         
         

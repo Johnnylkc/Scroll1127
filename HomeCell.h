@@ -13,6 +13,7 @@
 
 @property (strong , nonatomic) UILabel *myLabel;
 
-@property (strong , nonatomic) UIImageView *squareImage;
+@property (strong , nonatomic) UIImageView *leftImage;
+@property (strong , nonatomic) UIImageView *rightImage;
 
 @end

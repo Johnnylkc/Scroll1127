@@ -49,6 +49,7 @@
 
 @implementation HomeTVC
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -98,7 +99,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"allData"];
 
-    [query orderByDescending:@"order"];
+    //[query orderByDescending:@"order"];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
        
@@ -130,8 +131,6 @@
                     
                     NSLog(@"%@" , locoDataArray[0][@"image"]);
                 
-                  
-                 
                 }
                 
                 [self.tableView reloadData];
@@ -144,8 +143,6 @@
     }];
     
 }
-
-
 
 
 
@@ -178,9 +175,14 @@
         
         rowHeight = 250;
     
+    }else if (indexPath.row == 6){
+        
+        rowHeight = 1000;
+        
     }else{
         
         rowHeight = 70;
+
     }
     return rowHeight;
    
@@ -229,42 +231,52 @@
     
     
     
-    if (indexPath.row == 0) {
-        
-    
-        self.myScrollView.frame= CGRectMake(0, 100, self.tableView.frame.size.width, 150);
-        
-    
-    }else if(indexPath.row == 14){
-    
-        separatorLineView = nil;
-        
 
-    }else{
-        
-        
-        separatorLineView.frame = CGRectMake(30, 69, self.tableView.frame.size.width-60, 1);
-
-     
-    }
     
     
     switch (indexPath.row) {
+        case 0:
+            self.myScrollView.frame= CGRectMake(0, 100, self.tableView.frame.size.width, 150);
+            break;
+            
+        case 1:
+            separatorLineView.frame = CGRectMake(30, 69, self.tableView.frame.size.width-60, 1);
+
+            break;
+        
+        
+        
         case 2:
             cell.myLabel.text = @"排行榜";
+            separatorLineView.frame = CGRectMake(30, 69, self.tableView.frame.size.width-60, 1);
 
             break;
             
         case 3:
             cell.myLabel.text = @"最新發行";
+            separatorLineView.frame = CGRectMake(30, 69, self.tableView.frame.size.width-60, 1);
+
             break;
             
         case 4:
             cell.myLabel.text = @"發掘";
-            
-            case 5:
-            cell.myLabel.text = @"演唱會捷徑";
+            separatorLineView.frame = CGRectMake(30, 69, self.tableView.frame.size.width-60, 1);
             break;
+            
+        case 5:
+            cell.myLabel.text = @"演唱會捷徑";
+            separatorLineView.frame = CGRectMake(30, 69, self.tableView.frame.size.width-60, 1);
+
+            break;
+            
+        case 6:
+            cell.leftImage.frame = CGRectMake(10, 15, 145 , 140);
+            cell.leftImage.image = [UIImage imageNamed:@"002"];
+            
+            
+            cell.rightImage.frame = CGRectMake(165, 15, 145, 140);
+            cell.rightImage.image = [UIImage imageNamed:@"004"];
+            
             
 
             
