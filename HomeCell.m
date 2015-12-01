@@ -20,15 +20,17 @@
     
     if (self) {
         
-        self.testImage = [[UIImageView alloc] init];
-        self.testImage.contentMode = UIViewContentModeScaleAspectFill;
-        self.testImage.clipsToBounds = YES;
-        //[self.contentView addSubview:self.testImage];
-        
         self.myLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 150, 50)];
         self.myLabel.textColor = [UIColor whiteColor];
         self.myLabel.font = [UIFont boldSystemFontOfSize:20];
         [self.contentView addSubview:self.myLabel];
+        
+        self.squareImage = [UIImageView new];
+        self.squareImage.contentMode = UIViewContentModeScaleAspectFill;
+        self.squareImage.clipsToBounds = YES;
+        [self.contentView addSubview:self.squareImage];
+        
+        
         
     }
     

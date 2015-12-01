@@ -11,8 +11,8 @@
 @interface HomeCell : UITableViewCell
 
 
-@property (strong , nonatomic) UIImageView *testImage;
-
 @property (strong , nonatomic) UILabel *myLabel;
+
+@property (strong , nonatomic) UIImageView *squareImage;
 
 @end

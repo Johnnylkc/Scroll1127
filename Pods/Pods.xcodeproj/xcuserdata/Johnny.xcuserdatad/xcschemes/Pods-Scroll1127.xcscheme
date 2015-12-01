@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '12A5401CDECC410366C49460'
+               BlueprintIdentifier = 'F9DB7EB0A44A693D92B29E29'
                BlueprintName = 'Pods-Scroll1127'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-Scroll1127.a'>

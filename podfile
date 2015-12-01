@@ -6,7 +6,7 @@
 target 'Scroll1127' do
 
 pod 'Parse'
-
+pod 'AFNetworking'
 
 end
 

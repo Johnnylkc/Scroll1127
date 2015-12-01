@@ -10,7 +10,11 @@
 #import "HomeCell.h"
 #import "OneVC.h"
 
+
 #import <Parse/Parse.h>
+#import "AFNetworking.h"
+#import "UIImageView+AFNetworking.h"
+
 
 #import "QuartzCore/CALayer.h"
 
@@ -21,6 +25,7 @@
     NSMutableArray *locoDataArray;
     
     NSMutableDictionary *getDataDic;
+    
     
     
     NSArray *newArray;
@@ -36,7 +41,6 @@
 @property (strong , nonatomic) UIButton *threeButton;
 @property (strong , nonatomic) UIButton *fourButton;
 @property (strong , nonatomic) UIButton *fiveButton;
-
 
 
 
@@ -83,6 +87,8 @@
 }
 
 
+
+
 -(void)parseDownload
 {
     
@@ -91,27 +97,41 @@
 
     
     PFQuery *query = [PFQuery queryWithClassName:@"allData"];
+
+    [query orderByDescending:@"order"];
+
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+       
+
+        
         for (PFObject *allObjects in objects) {
             
             PFObject *title = allObjects[@"title"];
             PFFile *image = allObjects[@"image"];
+            PFObject *order = allObjects[@"order"];
             
             [image getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
                 
+                
                 if (error == nil) {
-                    
+
                 
                 UIImage *image = [[UIImage alloc] initWithData:data];
                     
-                    getDataDic = [@{@"title":title , @"image":image}mutableCopy];
+                    getDataDic = [@{@"title":title , @"image":image , @"order":order}mutableCopy];
                 
-                    [locoDataArray addObject:getDataDic[@"image"]];
+                    [locoDataArray addObject:getDataDic];
                     
-                    NSLog(@"%@" , locoDataArray);
+                    NSSortDescriptor *mySorter = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+                    [locoDataArray sortUsingDescriptors:[NSArray arrayWithObject:mySorter]];
                     
-                   
-
+                    newArray = [[NSArray alloc] initWithArray:locoDataArray];
+                    
+                    
+                    NSLog(@"%@" , locoDataArray[0][@"image"]);
+                
+                  
+                 
                 }
                 
                 [self.tableView reloadData];
@@ -124,6 +144,7 @@
     }];
     
 }
+
 
 
 
@@ -145,7 +166,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 15;
+    return 7;
 }
 
 
@@ -186,58 +207,30 @@
     
    //我要在第一個cell加scrollview
     self.myScrollView = [[UIScrollView alloc] init];
-    self.myScrollView.contentSize = CGSizeMake(1000, 0);
+    self.myScrollView.contentSize = CGSizeMake(1500, 0);
     self.myScrollView.backgroundColor = [UIColor clearColor];
     self.myScrollView.showsHorizontalScrollIndicator = NO;//不出現底下拖曳線
     [cell.contentView addSubview:self.myScrollView];
     
     //scroll裡的button
-    
-    for (int i = 0 ; i != locoDataArray.count ; i++ ) {
+
+    int x = 0 ;
+    for (int i = 0 ; i !=locoDataArray.count ; i++) {
         
-        UIButton *scrollButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [scrollButton addTarget:self action:@selector(toOneVC:) forControlEvents:UIControlEventTouchUpOutside];
-        
-        [scrollButton setBackgroundImage:locoDataArray[i] forState:normal];
-        
-        scrollButton.frame = CGRectMake(self.tableView.frame.size.width/2.4 * i +10 , 0, 150, 150);
-        
+        UIButton *scrollButton = [[UIButton alloc] initWithFrame:CGRectMake(x+15, 0, 150, 150)];
+        [scrollButton setBackgroundImage:locoDataArray[i][@"image"] forState:normal];
+        [scrollButton addTarget:self action:@selector(toOneVC:) forControlEvents:UIControlEventTouchUpInside];
         [self.myScrollView addSubview:scrollButton];
         
+        x  += scrollButton.frame.size.width+15;
+        
+
     }
-    
-    
-    
-//    self.oneButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 150, 150)];
-//    [self.oneButton setBackgroundImage:[UIImage imageNamed:@"002"]  forState:normal];
-//    [self.oneButton addTarget:self action:@selector(toOneVC:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.myScrollView addSubview:self.oneButton];
-//
-//    self.twoButton = [[UIButton alloc] initWithFrame:CGRectMake(170, 0, 150, 150)];
-//    [self.twoButton setBackgroundImage:[UIImage imageNamed:@"003"] forState:normal];
-//    [self.twoButton addTarget:self action:@selector(toOneVC:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.myScrollView addSubview:self.twoButton];
-//    
-//    self.threeButton = [[UIButton alloc] initWithFrame:CGRectMake(330, 0, 150, 150)];
-//    [self.threeButton setBackgroundImage:[UIImage imageNamed:@"004"] forState:normal];
-//    [self.threeButton addTarget:self action:@selector(toOneVC:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.myScrollView addSubview:self.threeButton];
-//    
-//    self.fourButton = [[UIButton alloc] initWithFrame:CGRectMake(490, 0, 150, 150)];
-//    [self.fourButton setBackgroundImage:[UIImage imageNamed:@"005"] forState:normal];
-//    [self.fourButton addTarget:self action:@selector(toOneVC:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.myScrollView addSubview:self.fourButton];
-//    
-//    self.fiveButton = [[UIButton alloc] initWithFrame:CGRectMake(650, 0, 150, 150)];
-//    [self.fiveButton setBackgroundImage:[UIImage imageNamed:@"006"] forState:normal];
-//    [self.fiveButton addTarget:self action:@selector(toOneVC:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.myScrollView addSubview:self.self.fiveButton];
     
     
     
     if (indexPath.row == 0) {
         
-        //separatorLineView.frame = CGRectMake(30, 249, self.tableView.frame.size.width-60, 1);
     
         self.myScrollView.frame= CGRectMake(0, 100, self.tableView.frame.size.width, 150);
         
@@ -245,7 +238,6 @@
     }else if(indexPath.row == 14){
     
         separatorLineView = nil;
-        cell.myLabel.text = @"要被吃掉囉";
         
 
     }else{
@@ -253,11 +245,33 @@
         
         separatorLineView.frame = CGRectMake(30, 69, self.tableView.frame.size.width-60, 1);
 
-        
-        cell.myLabel.text = @"要被吃掉囉";
-
-        
+     
     }
+    
+    
+    switch (indexPath.row) {
+        case 2:
+            cell.myLabel.text = @"排行榜";
+
+            break;
+            
+        case 3:
+            cell.myLabel.text = @"最新發行";
+            break;
+            
+        case 4:
+            cell.myLabel.text = @"發掘";
+            
+            case 5:
+            cell.myLabel.text = @"演唱會捷徑";
+            break;
+            
+
+            
+        default:
+            break;
+    }
+    
     
    return cell;
 }
@@ -265,17 +279,19 @@
 
 
 
-//scrollview裡button要執行的method
--(void)toOneVC:(UIButton*)button
+
+
+
+-(void)toOneVC:(UIButton*)sender
 {
     OneVC *controller = [[OneVC alloc] init];
-    
     [self.navigationController pushViewController:controller animated:YES];
     
-    
-    
-    
 }
+
+
+
+
 
 /*
 // Override to support conditional editing of the table view.
